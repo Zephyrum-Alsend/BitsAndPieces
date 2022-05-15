@@ -1,0 +1,17 @@
+make.exe --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/c/GBA/BitsAndPieces/GBA_VSCode_Basic-master'
+ 
+[ -d build ] || mkdir -p build
+make BUILDDIR=`cd build && pwd` --no-print-directory -C build -f /c/GBA/BitsAndPieces/GBA_VSCode_Basic-master/Makefile
+ 
+echo main.c
+arm-none-eabi-gcc -MMD -MP -MF /c/GBA/BitsAndPieces/GBA_VSCode_Basic-master/build/main.d -g -Wall -O3 -mcpu=arm7tdmi -mtune=arm7tdmi -fomit-frame-pointer -ffast-math -mthumb -mthumb-interwork -iquote /c/GBA/BitsAndPieces/GBA_VSCode_Basic-master/include -iquote /c/GBA/BitsAndPieces/GBA_VSCode_Basic-master/resources -IC:\GBA\devkitpro/libgba/include -I/c/GBA/BitsAndPieces/GBA_VSCode_Basic-master/build -c /c/GBA/BitsAndPieces/GBA_VSCode_Basic-master/source/main.c -o main.o 
+echo linking cartridge
+arm-none-eabi-gcc  -g -mthumb -mthumb-interwork -Wl,-Map,GBA_VSCode_Basic-master.map -specs=gba.specs   main.o  -LC:\GBA\devkitpro/libgba/lib -lmm -lgba -o /c/GBA/BitsAndPieces/GBA_VSCode_Basic-master/GBA_VSCode_Basic-master.elf
+ 
+arm-none-eabi-objcopy -O binary /c/GBA/BitsAndPieces/GBA_VSCode_Basic-master/GBA_VSCode_Basic-master.elf /c/GBA/BitsAndPieces/GBA_VSCode_Basic-master/GBA_VSCode_Basic-master.gba
+echo built ... GBA_VSCode_Basic-master.gba
+gbafix /c/GBA/BitsAndPieces/GBA_VSCode_Basic-master/GBA_VSCode_Basic-master.gba
+ 
+make: Leaving directory '/c/GBA/BitsAndPieces/GBA_VSCode_Basic-master'
+ 
